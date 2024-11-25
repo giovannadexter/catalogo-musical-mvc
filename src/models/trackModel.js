@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/connection');
 
+
 const Track = sequelize.define('Track', {
   name: {
     type: DataTypes.STRING,
@@ -8,10 +9,11 @@ const Track = sequelize.define('Track', {
   },
   album_id: {
     type: DataTypes.INTEGER,
-    references: {
-      model: 'Albums', // Nome da tabela
-      key: 'id',
-    },
+    allowNull: false,
+  },
+  genre: { // Nova coluna
+    type: DataTypes.STRING,
+    allowNull: true, // Ou false se for obrigatório
   },
 });
 

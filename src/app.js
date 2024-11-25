@@ -34,17 +34,25 @@ app.use('/search', pesquisaRoutes);
     console.error('Erro ao sincronizar o banco:', error);
   }
 })();
-// Rota inicial (home)
+
 app.get('/', async (req, res) => {
   try {
-    const albums = await Album.findAll(); // Busca todos os álbuns do banco
-    res.render('home', { albums }); // Passa os álbuns para a view
+    const albums = await Album.findAll({
+      include: [
+        {
+          model: Artista,
+          as: 'artist', // Certifique-se de que este alias corresponda ao definido no relacionamento
+          attributes: ['name'], // Carregue apenas os atributos necessários, como `name`
+        },
+      ],
+    });
+    res.render('home', { albums });
   } catch (error) {
     console.error('Erro ao carregar a página inicial:', error);
     res.status(500).send('Erro ao carregar a página inicial.');
   }
 });
-// Importar rotas
+
 
 // Iniciar o servidor
 const PORT = 3000;

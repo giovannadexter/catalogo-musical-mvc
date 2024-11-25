@@ -62,6 +62,10 @@ exports.getAlbumDetails = async (req, res) => {
           as: 'artist',
         },
         {
+          model: Genero,
+          as: 'genre',
+        },
+        {
           model: Track,
           as: 'tracks', // Inclua a associação das faixas
         },
@@ -78,11 +82,6 @@ exports.getAlbumDetails = async (req, res) => {
     res.status(500).send('Erro ao buscar detalhes do álbum.');
   }
 };
-
-
-
-
-
 
 
 exports.getAllAlbums = async (req, res) => {
