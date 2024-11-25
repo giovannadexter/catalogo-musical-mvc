@@ -8,4 +8,6 @@ router.get('/add', artistaController.addArtistForm);
 // Processa a adição de um novo artista
 router.post('/add', artistaController.createArtist);
 
+router.get('/:id', artistaController.getArtistDetails);
+
 module.exports = router;

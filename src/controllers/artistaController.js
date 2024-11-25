@@ -17,12 +17,17 @@ exports.getAllArtists = async (req, res) => {
 
 exports.getArtistDetails = async (req, res) => {
   try {
-    const artist = await Artista.findByPk(req.params.id);
-    if (!artist) return res.status(404).send('Artista não encontrado.');
+    const artist = await Artista.findByPk(req.params.id, {
+        include: ['albums'] // Inclui os álbuns associados
+    });
+    if (!artist) {
+        return res.status(404).send('Artista não encontrado');
+    }
     res.render('detalhesArtista', { artist });
-  } catch (error) {
-    res.status(500).send('Erro ao buscar detalhes do artista.');
-  }
+} catch (error) {
+    console.error(error);
+    res.status(500).send('Erro no servidor');
+}
 };
 
 exports.addArtistForm = async (req, res) => {
@@ -41,11 +46,20 @@ exports.createArtist = async (req, res) => {
     console.log('Dados recebidos no formulário:', req.body); // Log para depuração
     const { name, genre, album_id } = req.body;
 
+    // Validação de campos obrigatórios
     if (!name || !genre) {
       console.log('Dados inválidos para criar artista');
       return res.status(400).send('Nome e Gênero são obrigatórios.');
     }
 
+    // Verifica se o artista já existe pelo nome
+    const existingArtist = await Artista.findOne({ where: { name } });
+    if (existingArtist) {
+      console.log('Artista já existe com o nome:', name);
+      return res.status(400).send('Já existe um artista com esse nome.');
+    }
+
+    // Cria o artista se ele não existir
     const artist = await Artista.create({ name, genre });
     console.log('Artista criado com sucesso!');
 
@@ -61,6 +75,13 @@ exports.createArtist = async (req, res) => {
     res.redirect('/');
   } catch (error) {
     console.error('Erro ao adicionar artista:', error);
+
+    // Lida com erro de unicidade caso o banco de dados tenha a constraint
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).send('Já existe um artista com esse nome.');
+    }
+
     res.status(500).send('Erro ao adicionar artista.');
   }
 };
+

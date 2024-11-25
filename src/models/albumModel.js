@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/connection');
+const Artista = require('./artistaModel');
 
 const Album = sequelize.define('Album', {
   title: {

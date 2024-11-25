@@ -26,6 +26,12 @@
     </ul>
     
   </div>
+  <% if (album.artist) { %>
+    <a href="/artists/<%= album.artist.id %>" class="btn btn-primary">Ver Detalhes do Artista</a>
+  <% } else { %>
+    <p>Artista não disponível</p>
+  <% } %>
+  
   <a href="/">Voltar</a>
 </body>
 </html>

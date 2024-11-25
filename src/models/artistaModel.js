@@ -5,10 +5,17 @@ const Artista = sequelize.define('Artista', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-  genre: {
+    unique: true, // Define que o nome deve ser único
+    validate: {
+        notEmpty: {
+            msg: 'O nome do artista não pode ser vazio.'
+        }
+    }
+},
+genre: {
     type: DataTypes.STRING,
-  },
+    allowNull: false
+}
 });
 
 // Associações do Artista
