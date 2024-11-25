@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Artista</title>
-    <link rel="stylesheet" href="/styles.css">
+  <meta charset="UTF-8">
+  <title>Adicionar Artista</title>
 </head>
 <body>
-    <h1>Adicionar Artista</h1>
-    <form action="/artists/add" method="POST">
-        <input type="text" name="name" placeholder="Nome do Artista" required>
-        <input type="text" name="genre" placeholder="Gênero Musical" required>
-        <select name="album_id">
-            <option value="">Associar a um disco existente (opcional)</option>
-            <% albums.forEach(album => { %>
-                <option value="<%= album.id %>"><%= album.title %></option>
-            <% }) %>
-        </select>
-        <button type="submit">Adicionar Artista</button>
-    </form>
+  <h1>Adicionar Artista</h1>
+  <form action="/artists/add" method="POST">
+    <label for="name">Nome do Artista:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="genre">Gênero Musical:</label>
+    <input type="text" id="genre" name="genre" required>
+
+    <label for="album_id">Associar a um disco existente (opcional):</label>
+    <select id="album_id" name="album_id">
+      <option value="">Selecione um álbum</option>
+      <% albums.forEach(album => { %>
+        <option value="<%= album.id %>"><%= album.title %></option>
+      <% }) %>
+    </select>
+
+    <button type="submit">Adicionar</button>
+  </form>
 </body>
 </html>

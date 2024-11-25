@@ -18,6 +18,8 @@ exports.search = async (req, res) => {
       },
     });
 
+    console.log("meus albuns", albums);
+
     res.render('pesquisa', { albums });
   } catch (error) {
     console.error(error);

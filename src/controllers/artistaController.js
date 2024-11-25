@@ -27,8 +27,9 @@ exports.getArtistDetails = async (req, res) => {
 
 exports.addArtistForm = async (req, res) => {
   try {
-    const albums = await Album.findAll(); // Busca os álbuns existentes
-    res.render('addArtista', { albums }); // Renderiza a view com os álbuns
+    // Busca os álbuns existentes para o dropdown
+    const albums = await Album.findAll();
+    res.render('addArtista', { albums });
   } catch (error) {
     console.error('Erro ao carregar o formulário de adicionar artista:', error);
     res.status(500).send('Erro ao carregar o formulário de adicionar artista.');
@@ -37,20 +38,23 @@ exports.addArtistForm = async (req, res) => {
 
 exports.createArtist = async (req, res) => {
   try {
+    console.log('Dados recebidos no formulário:', req.body); // Log para depuração
     const { name, genre, album_id } = req.body;
 
     if (!name || !genre) {
+      console.log('Dados inválidos para criar artista');
       return res.status(400).send('Nome e Gênero são obrigatórios.');
     }
 
-    // Criação do artista
     const artist = await Artista.create({ name, genre });
+    console.log('Artista criado com sucesso!');
 
-    // Associação opcional a um álbum
+    // Associa o artista ao álbum, se fornecido
     if (album_id) {
       const album = await Album.findByPk(album_id);
       if (album) {
-        await artist.addAlbum(album); // Associa o artista ao álbum
+        await album.update({ artist_id: artist.id });
+        console.log('Artista associado ao álbum:', album.title);
       }
     }
 
@@ -60,4 +64,3 @@ exports.createArtist = async (req, res) => {
     res.status(500).send('Erro ao adicionar artista.');
   }
 };
-

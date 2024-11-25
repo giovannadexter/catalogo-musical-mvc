@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes do Disco</title>
-    <link rel="stylesheet" href="/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do Álbum</title>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <h1>Detalhes do Disco</h1>
-    <div class="album-details">
-        <img src="<%= album.cover_url %>" alt="<%= album.title %>">
-        <p><strong>Nome:</strong> <%= album.title %></p>
-        <p><strong>Artista:</strong> <a href="/artists/<%= album.artist_id %>"><%= album.artist_name || "Artista desconhecido" %></a></p>
-        <p><strong>Ano de Lançamento:</strong> <%= album.release_year %></p>
-        <p><strong>Gênero:</strong> Rock</p>
-    </div>
-    <div class="actions">
-        <a href="/albums/edit/<%= album.id %>">Editar Informações</a>
-        <a href="/">Voltar para Página Inicial</a>
-    </div>
+  <h1>Detalhes do Álbum</h1>
+  <div class="album-details">
+    <img src="<%= album.cover_url %>" alt="<%= album.title %>">
+    <h2><%= album.title %></h2>
+    <p>Artista: <%= album.artist ? album.artist.name : 'Artista desconhecido' %></p>
+    <p>Ano de Lançamento: <%= album.release_year %></p>
+    <p>Gênero: <%= album.genre ? album.genre.name : 'Gênero desconhecido' %></p>
+    <h3>Faixas</h3>
+    <ul>
+      <% if (album.tracks && album.tracks.length > 0) { %>
+        <% album.tracks.forEach(track => { %>
+          <li><%= track.name %></li>
+        <% }) %>
+      <% } else { %>
+        <li>Nenhuma faixa encontrada.</li>
+      <% } %>
+    </ul>
+    
+  </div>
+  <a href="/">Voltar</a>
 </body>
 </html>

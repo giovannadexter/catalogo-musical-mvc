@@ -8,8 +8,12 @@ const Artista = sequelize.define('Artista', {
   },
   genre: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
 });
+
+// Associações do Artista
+Artista.associate = models => {
+  Artista.hasMany(models.Album, { foreignKey: 'artist_id', as: 'albums' });
+};
 
 module.exports = Artista;

@@ -1,19 +1,10 @@
 const { Sequelize } = require('sequelize');
 
-// Configuração da conexão com o banco SQLite
+// Configuração da conexão com o SQLite
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: './db/catalog.sqlite', // Caminho do arquivo SQLite
-  logging: false, // Para evitar logs desnecessários
+  storage: './db/catalogo.sqlite', // Certifique-se de que o caminho para o arquivo SQLite está correto
+  logging: false, // Opcional: desabilita logs das queries no console
 });
 
-sequelize.sync({ force: true }) // Isso apaga os dados existentes e recria as tabelas
-  .then(() => {
-    console.log('Banco de dados sincronizado com sucesso.');
-  })
-  .catch((error) => {
-    console.error('Erro ao sincronizar o banco de dados:', error);
-  });
-
-
-module.exports = sequelize;
+module.exports = sequelize; // Exporta a instância do Sequelize

@@ -8,4 +8,8 @@ const Genero = sequelize.define('Genero', {
   },
 });
 
+Genero.associate = models => {
+  Genero.hasMany(Album, { foreignKey: 'genre_id', as: 'albums' });
+};
+
 module.exports = Genero;

@@ -13,7 +13,7 @@
             <div class="album-card">
                 <img src="<%= album.cover_url %>" alt="<%= album.title %>">
                 <p><%= album.title %></p>
-                <p><%= album.artist_name || "Artista desconhecido" %></p>
+                <p><%= album.artist ? album.artist.name : "Artista desconhecido" %></p>
                 <a href="/albums/<%= album.id %>">Ver detalhes</a>
             </div>
         <% }) %>

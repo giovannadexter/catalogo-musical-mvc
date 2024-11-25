@@ -12,16 +12,14 @@ const Album = sequelize.define('Album', {
   },
   cover_url: {
     type: DataTypes.STRING,
-    allowNull: true,
-  },
-  artist_id: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: 'Artistas', // Nome da tabela de artistas
-      key: 'id',
-    },
-    allowNull: true,
   },
 });
+
+Album.associate = models => {
+  Album.belongsTo(Artista, { foreignKey: 'artist_id', as: 'artist' });
+  Album.belongsTo(Genero, { foreignKey: 'genre_id', as: 'genre' });
+  Album.hasMany(Track, { foreignKey: 'album_id', as: 'tracks' });
+
+};
 
 module.exports = Album;
