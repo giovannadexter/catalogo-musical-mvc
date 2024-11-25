@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Musical da Gigi</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Catálogo Musical da Gigi</h1>
+    <div class="albums-container">
+        <% albums.forEach(album => { %>
+            <div class="album-card">
+                <img src="<%= album.cover_url %>" alt="<%= album.title %>">
+                <p><%= album.title %></p>
+                <p><%= album.artist_name || "Artista desconhecido" %></p>
+                <a href="/albums/<%= album.id %>">Ver detalhes</a>
+            </div>
+        <% }) %>
+    </div>
+    <div class="actions">
+        <a href="/albums/add">Adicionar Disco</a>
+        <a href="/artists/add">Adicionar Artista</a>
+        <a href="/search">Pesquisa</a>
+    </div>
+</body>
+</html>

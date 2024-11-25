@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Adicionar Disco</title>
+</head>
+<body>
+  <h1>Adicionar Disco</h1>
+  <form action="/albums/add" method="POST">
+    <label for="title">Título do Disco:</label>
+    <input type="text" name="title" id="title" required>
+    <label for="release_year">Ano de Lançamento:</label>
+    <input type="number" name="release_year" id="release_year" required>
+    <label for="cover_url">URL da Capa:</label>
+    <input type="text" name="cover_url" id="cover_url">
+    <button type="submit">Adicionar</button>
+  </form>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Artista</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Detalhes do Artista</h1>
+    <div class="artist-details">
+        <p><strong>Nome:</strong> <%= artist.name %></p>
+        <p><strong>Gênero:</strong> <%= artist.genre %></p>
+        <p><strong>Lista de Discos:</strong></p>
+        <ul>
+            <% artist.albums.forEach(album => { %>
+                <li><%= album.title %></li>
+            <% }) %>
+        </ul>
+    </div>
+    <div class="actions">
+        <a href="/artists/edit/<%= artist.id %>">Editar Informações</a>
+        <a href="/">Voltar para Álbum</a>
+    </div>
+</body>
+</html>

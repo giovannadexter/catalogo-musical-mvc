@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Pesquisa</h1>
+    <div>
+        <h2>Disco</h2>
+        <form action="/search" method="GET">
+            <input type="text" name="title" placeholder="Título do Disco">
+            <input type="text" name="genre" placeholder="Gênero">
+            <input type="text" name="artist" placeholder="Artista">
+            <button type="submit">Pesquisar</button>
+        </form>
+    </div>
+    <div>
+        <h2>Artista</h2>
+        <form action="/search" method="GET">
+            <input type="text" name="name" placeholder="Nome do Artista">
+            <input type="text" name="genre" placeholder="Gênero">
+            <input type="text" name="albums" placeholder="Discos">
+            <button type="submit">Pesquisar</button>
+        </form>
+    </div>
+</body>
+</html>
