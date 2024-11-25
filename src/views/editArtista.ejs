@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Artista</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+</head>
+<body>
+    <h1>Editar Artista</h1>
+<form action="/artists/<%= artist.id %>/edit" method="POST">
+  <label for="name">Nome:</label>
+  <input type="text" id="name" name="name" value="<%= artist.name %>" required>
+  <label for="genre">Gênero:</label>
+  <input type="text" id="genre" name="genre" value="<%= artist.genre %>">
+  <button type="submit">Salvar</button>
+</form>
+<a href="/artists/<%= artist.id %>">Cancelar</a>
+
+     
+</body>
+</html>
+

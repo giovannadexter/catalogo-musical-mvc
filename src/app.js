@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 
+
 const { sequelize, Album, Artista, Genero, Track } = require('./models');
 
 // Inicializar o app

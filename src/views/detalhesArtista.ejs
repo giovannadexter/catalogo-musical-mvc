@@ -19,7 +19,10 @@
         </ul>
     </div>
     <div class="actions">
-        <a href="/artists/edit/<%= artist.id %>">Editar Informações</a>
+
+    <a href="/artists/<%= artist.id %>/edit" class="btn btn-warning">Editar</a>
+    <a href="/artists/<%= artist.id %>/delete" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar este artista?')">Deletar</a>
+
         <a href="/">Voltar para Álbum</a>
     </div>
 </body>

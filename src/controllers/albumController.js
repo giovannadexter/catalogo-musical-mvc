@@ -67,7 +67,7 @@ exports.getAlbumDetails = async (req, res) => {
         },
         {
           model: Track,
-          as: 'tracks', // Inclua a associação das faixas
+          as: 'tracks',
         },
       ],
     });
@@ -83,7 +83,6 @@ exports.getAlbumDetails = async (req, res) => {
   }
 };
 
-
 exports.getAllAlbums = async (req, res) => {
   try {
     const albums = await Album.findAll();
@@ -91,5 +90,91 @@ exports.getAllAlbums = async (req, res) => {
   } catch (error) {
     console.error('Erro ao buscar álbuns:', error);
     res.status(500).send('Erro ao buscar álbuns.');
+  }
+};
+
+exports.editAlbum = async (req, res) => {
+  try {
+    const album = await Album.findByPk(req.params.id, {
+      include: [
+        { model: Track, as: 'tracks' }, // Inclui as faixas associadas
+        { model: Genero, as: 'genre' },
+      ],
+    });
+
+    if (!album) {
+      return res.status(404).send('Álbum não encontrado.');
+    }
+
+    res.render('editAlbum', { album });
+  } catch (error) {
+    console.error('Erro ao buscar álbum para edição:', error);
+    res.status(500).send('Erro ao buscar álbum para edição.');
+  }
+};
+
+
+exports.updateAlbum = async (req, res) => {
+  try {
+    const { title, release_year, genre, tracks } = req.body;
+
+    console.log('Dados recebidos:', tracks); // Debug para verificar os dados
+
+    const album = await Album.findByPk(req.params.id, {
+      include: [{ model: Track, as: 'tracks' }],
+    });
+
+    if (!album) {
+      return res.status(404).send('Álbum não encontrado.');
+    }
+
+    // Atualizar informações do álbum
+    await album.update({ title, release_year });
+
+    // Atualizar, excluir ou adicionar faixas
+    if (tracks) {
+      for (const trackData of Array.isArray(tracks) ? tracks : [tracks]) {
+        const { id, name, delete: deleteTrack } = trackData;
+
+        if (deleteTrack === 'true' && id) {
+          // Excluir faixa se marcada para exclusão e ID for válido
+          console.log(`Excluindo faixa com ID: ${id}`); // Debug
+          await Track.destroy({ where: { id } });
+        } else if (id) {
+          // Atualizar faixa existente
+          const track = await Track.findByPk(id);
+          if (track) {
+            console.log(`Atualizando faixa com ID: ${id}, Nome: ${name}`); // Debug
+            await track.update({ name });
+          }
+        } else if (name) {
+          // Criar nova faixa se não tiver ID e não estiver marcada para exclusão
+          console.log(`Adicionando nova faixa: ${name}`); // Debug
+          await Track.create({ name, album_id: album.id });
+        }
+      }
+    }
+
+    res.redirect(`/albums/${album.id}`);
+  } catch (error) {
+    console.error('Erro ao atualizar álbum:', error);
+    res.status(500).send('Erro ao atualizar álbum.');
+  }
+};
+
+
+
+
+exports.deleteAlbum = async (req, res) => {
+  try {
+    const album = await Album.findByPk(req.params.id);
+    if (!album) {
+      return res.status(404).send('Álbum não encontrado.');
+    }
+    await album.destroy();
+    res.redirect('/');
+  } catch (error) {
+    console.error('Erro ao deletar álbum:', error);
+    res.status(500).send('Erro ao deletar álbum.');
   }
 };

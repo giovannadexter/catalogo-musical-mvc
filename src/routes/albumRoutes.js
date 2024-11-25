@@ -13,5 +13,10 @@ router.get('/', albumController.getAllAlbums);
 
 router.get('/:id', albumController.getAlbumDetails);
 
+router.get('/:id/edit', albumController.editAlbum);
+router.post('/:id/edit', albumController.updateAlbum);
+
+// Rota para deletar álbum
+router.get('/:id/delete', albumController.deleteAlbum);
 
 module.exports = router;

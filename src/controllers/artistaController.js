@@ -83,5 +83,49 @@ exports.createArtist = async (req, res) => {
 
     res.status(500).send('Erro ao adicionar artista.');
   }
+ 
+};
+
+
+exports.editArtist = async (req, res) => {
+  try {
+    const artist = await Artista.findByPk(req.params.id);
+    if (!artist) {
+      return res.status(404).send('Artista não encontrado.');
+    }
+    res.render('editArtista', { artist });
+  } catch (error) {
+    console.error('Erro ao buscar artista para edição:', error);
+    res.status(500).send('Erro ao buscar artista para edição.');
+  }
+};
+
+exports.updateArtist = async (req, res) => {
+  try {
+    const { name, genre } = req.body;
+    const artist = await Artista.findByPk(req.params.id);
+    if (!artist) {
+      return res.status(404).send('Artista não encontrado.');
+    }
+    await artist.update({ name, genre });
+    res.redirect(`/artists/${artist.id}`);
+  } catch (error) {
+    console.error('Erro ao atualizar artista:', error);
+    res.status(500).send('Erro ao atualizar artista.');
+  }
+};
+
+exports.deleteArtist = async (req, res) => {
+  try {
+    const artist = await Artista.findByPk(req.params.id);
+    if (!artist) {
+      return res.status(404).send('Artista não encontrado.');
+    }
+    await artist.destroy();
+    res.redirect('/');
+  } catch (error) {
+    console.error('Erro ao deletar artista:', error);
+    res.status(500).send('Erro ao deletar artista.');
+  }
 };
 

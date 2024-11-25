@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Álbum</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Editar Álbum</h1>
+    <form action="/albums/<%= album.id %>/edit" method="POST">
+      <label for="title">Título:</label>
+      <input type="text" id="title" name="title" value="<%= album.title %>" required>
+    
+      <label for="release_year">Ano de Lançamento:</label>
+      <input type="number" id="release_year" name="release_year" value="<%= album.release_year %>" required>
+    
+      <label for="genre">Gênero:</label>
+      <input type="text" id="genre" name="genre" value="<%= album.genre ? album.genre.name : '' %>">
+    
+      <label for="tracks">Faixas:</label>
+      <ul id="tracks">
+        <% album.tracks.forEach((track, index) => { %>
+          <li style="display: flex; align-items: center; gap: 10px;">
+            <!-- Campo para o nome da faixa -->
+            <input type="text" name="tracks[<%= index %>][name]" value="<%= track.name %>" required>
+            <!-- Campo oculto para o ID da faixa -->
+            <input type="hidden" name="tracks[<%= index %>][id]" value="<%= track.id %>">
+            <!-- Checkbox para exclusão -->
+            <label style="display: flex; align-items: center; gap: 5px;">
+              <input type="checkbox" name="tracks[<%= index %>][delete]" value="true">
+              <span>Marque para remover essa faixa</span>
+            </label>
+          </li>
+        <% }) %>
+      </ul>
+      
+    
+      <button type="submit">Salvar</button>
+    </form>
+    
+    <a href="/albums/<%= album.id %>">Cancelar</a>
+</body>
+</html>

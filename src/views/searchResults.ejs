@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados da Pesquisa</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+</head>
+<body>
+    <h1>Resultados para Pesquisa de "<%= query %>"</h1>
+    <% if (results.length > 0) { %>
+        <div class="results-container">
+            <% results.forEach(result => { %>
+                <div class="result-card">
+                    <img src="<%= result.cover_url || '/default-image.jpg' %>" alt="<%= result.title %>">
+                    <h2><%= result.title %></h2>
+                    <p><%= result.artist ? result.artist.name : 'Desconhecido' %></p>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <p>Nenhum resultado encontrado.</p>
+    <% } %>
+    <div class="button-container">
+        <a href="/" class="btn-back">Voltar para Home</a>
+      </div>
+</body>
+</html>
+</body>
+</html>

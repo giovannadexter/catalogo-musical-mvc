@@ -100,4 +100,245 @@ body {
   .center {
     text-align: center;
   }
+
+  /* Alinhar a checkbox à direita da caixa de texto */
+.track-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.track-input {
+  flex: 1;
+  margin-right: 10px;
+  padding: 5px;
+  font-size: 14px;
+  width: 60%;
+}
+
+.track-label {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Espaço entre a checkbox e o texto */
+}
+
+.track-checkbox {
+  margin-right: 5px;
+}
+
+/* Ajustar botão e espaçamento */
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.results-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.result-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  text-align: center;
+  padding: 15px;
+}
+
+.result-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.result-card h2 {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.result-card p {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
   
+/* Botão estilizado para links */
+.button {
+  display: inline-block;
+  background-color: #f4c042;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 5px;
+}
+
+.button:hover {
+  background-color: #d8a631;
+}
+
+.actions {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Ajuste de espaçamento para o formulário */
+form {
+  width: 50%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+button {
+  display: inline-block;
+  background-color: #f4c042;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #d8a631;
+}
+
+/* Centralizar os botões */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Espaço entre os botões */
+  margin-top: 20px;
+}
+
+button, .btn-back {
+  display: inline-block;
+  background-color: #f4c042;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover, .btn-back:hover {
+  background-color: #d8a631;
+}
+
+
+/* Página de detalhes do álbum */
+.album-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 60%;
+  margin: 20px auto;
+}
+
+.album-details img {
+  max-width: 200px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.album-details h2, .album-details p {
+  margin: 10px 0;
+  color: #333;
+}
+
+.album-details ul {
+  list-style: none;
+  padding: 0;
+}
+
+.album-details ul li {
+  margin: 5px 0;
+  color: #555;
+}
+
+/* Botões estilizados */
+.btn {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin: 10px 5px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #fff;
+  transition: background-color 0.3s ease;
+  width: fit-content;
+}
+
+.btn-primary {
+  background-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-warning {
+  background-color: #f4c042;
+  color: #333;
+}
+
+.btn-warning:hover {
+  background-color: #d8a631;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #b02a37;
+}
+
+a.btn {
+  display: inline-block;
+  width: fit-content;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+

@@ -8,6 +8,12 @@
 </head>
 <body>
     <h1>Catálogo Musical da Gigi</h1>
+
+    <form action="/search" method="get">
+        <input type="text" name="query" placeholder="Pesquisar..." required>
+        <button type="submit">Pesquisar</button>
+    </form>
+
     <div class="albums-container">
         <% albums.forEach(album => { %>
             <div class="album-card">
@@ -18,10 +24,10 @@
             </div>
         <% }) %>
     </div>
-    <div class="actions">
-        <a href="/albums/add">Adicionar Disco</a>
-        <a href="/artists/add">Adicionar Artista</a>
-        <a href="/search">Pesquisa</a>
-    </div>
+<div class="actions">
+    <a href="/albums/add" class="button">Adicionar Disco</a>
+    <a href="/artists/add" class="button">Adicionar Artista</a>
+</div>
+
 </body>
 </html>
