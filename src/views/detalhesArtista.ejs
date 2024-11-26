@@ -7,23 +7,27 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <h1>Detalhes do Artista</h1>
-    <div class="artist-details">
-        <p><strong>Nome:</strong> <%= artist.name %></p>
-        <p><strong>Gênero:</strong> <%= artist.genre %></p>
-        <p><strong>Lista de Discos:</strong></p>
-        <ul>
-            <% artist.albums.forEach(album => { %>
-                <li><%= album.title %></li>
-            <% }) %>
-        </ul>
-    </div>
-    <div class="actions">
-
-    <a href="/artists/<%= artist.id %>/edit" class="btn btn-warning">Editar</a>
-    <a href="/artists/<%= artist.id %>/delete" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar este artista?')">Deletar</a>
-
-        <a href="/">Voltar para Álbum</a>
+    <div class="container">
+        <h1 class="title">Detalhes do Artista</h1>
+        <div class="artist-details card">
+            <p><strong>Nome:</strong> <%= artist.name %></p>
+            <p><strong>Gênero:</strong> <%= artist.genre || "Gênero desconhecido" %></p>
+            <p><strong>Lista de Discos:</strong></p>
+            <ul class="album-list">
+                <% if (artist.albums && artist.albums.length > 0) { %>
+                    <% artist.albums.forEach(album => { %>
+                        <li class="album-item"><%= album.title %></li>
+                    <% }) %>
+                <% } else { %>
+                    <li class="album-item">Nenhum álbum encontrado.</li>
+                <% } %>
+            </ul>
+        </div>
+        <div class="actions">
+            <a href="/artists/<%= artist.id %>/edit" class="btn btn-warning">Editar</a>
+            <a href="/artists/<%= artist.id %>/delete" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar este artista?')">Deletar</a>
+            <a href="/" class="btn btn-back">Voltar para Home</a>
+        </div>
     </div>
 </body>
 </html>

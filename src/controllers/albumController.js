@@ -10,20 +10,22 @@ exports.createAlbum = async (req, res) => {
 
     const { title, release_year, artist, tracks, cover_url, genre } = req.body;
 
-    if (!title || !release_year || !artist || !tracks) {
+    if (!title || !release_year || !tracks) {
       console.log('Dados inválidos para criar álbum');
       return res.status(400).send('Todos os campos obrigatórios devem ser preenchidos.');
     }
 
-    // Criar ou associar Artista
-    let artista = await Artista.findOne({ where: { name: artist } });
-    if (!artista) {
-      artista = await Artista.create({ name: artist, genre });
+    let artista = null;
+    if (artist && artist.trim() !== '') {
+      artista = await Artista.findOne({ where: { name: artist } });
+      if (!artista) {
+        artista = await Artista.create({ name: artist });
+      }
     }
 
     // Criar ou associar Gênero
     let genero = null;
-    if (genre) {
+    if (genre && genre.trim() !== '') {
       genero = await Genero.findOne({ where: { name: genre } });
       if (!genero) {
         genero = await Genero.create({ name: genre });
@@ -35,7 +37,7 @@ exports.createAlbum = async (req, res) => {
       title,
       release_year,
       cover_url,
-      artist_id: artista.id,
+      artist_id: artista ? artista.id : null,
       genre_id: genero ? genero.id : null,
     });
 
@@ -117,9 +119,6 @@ exports.editAlbum = async (req, res) => {
 exports.updateAlbum = async (req, res) => {
   try {
     const { title, release_year, genre, tracks } = req.body;
-
-    console.log('Dados recebidos:', tracks); // Debug para verificar os dados
-
     const album = await Album.findByPk(req.params.id, {
       include: [{ model: Track, as: 'tracks' }],
     });
@@ -128,29 +127,34 @@ exports.updateAlbum = async (req, res) => {
       return res.status(404).send('Álbum não encontrado.');
     }
 
-    // Atualizar informações do álbum
+    // Atualiza as informações do álbum
     await album.update({ title, release_year });
 
-    // Atualizar, excluir ou adicionar faixas
-    if (tracks) {
-      for (const trackData of Array.isArray(tracks) ? tracks : [tracks]) {
-        const { id, name, delete: deleteTrack } = trackData;
+    // Atualiza o gênero
+    if (genre && genre.trim() !== '') {
+      let genero = await Genero.findOne({ where: { name: genre } });
+      if (!genero) {
+        genero = await Genero.create({ name: genre });
+      }
+      album.genre_id = genero.id;
+      await album.save();
+    } else {
+      album.genre_id = null; // Deixa nulo se o campo estiver vazio
+      await album.save();
+    }
 
-        if (deleteTrack === 'true' && id) {
-          // Excluir faixa se marcada para exclusão e ID for válido
-          console.log(`Excluindo faixa com ID: ${id}`); // Debug
-          await Track.destroy({ where: { id } });
-        } else if (id) {
-          // Atualizar faixa existente
-          const track = await Track.findByPk(id);
+    // Atualiza ou exclui as faixas
+    if (tracks) {
+      for (const trackData of Object.values(tracks)) {
+        if (trackData.delete === 'true') {
+          // Exclui a faixa se marcada para exclusão
+          await Track.destroy({ where: { id: trackData.id } });
+        } else {
+          // Atualiza o nome da faixa
+          const track = await Track.findByPk(trackData.id);
           if (track) {
-            console.log(`Atualizando faixa com ID: ${id}, Nome: ${name}`); // Debug
-            await track.update({ name });
+            await track.update({ name: trackData.name });
           }
-        } else if (name) {
-          // Criar nova faixa se não tiver ID e não estiver marcada para exclusão
-          console.log(`Adicionando nova faixa: ${name}`); // Debug
-          await Track.create({ name, album_id: album.id });
         }
       }
     }
@@ -163,15 +167,27 @@ exports.updateAlbum = async (req, res) => {
 };
 
 
-
-
 exports.deleteAlbum = async (req, res) => {
   try {
-    const album = await Album.findByPk(req.params.id);
+    // Encontra o álbum pelo ID
+    const album = await Album.findByPk(req.params.id, {
+      include: [{ model: Track, as: 'tracks' }] // Inclui as faixas associadas
+    });
+
+    // Verifica se o álbum foi encontrado
     if (!album) {
       return res.status(404).send('Álbum não encontrado.');
     }
+
+    // Deleta as faixas associadas primeiro
+    if (album.tracks && album.tracks.length > 0) {
+      await Track.destroy({ where: { album_id: album.id } });
+    }
+
+    // Agora deleta o álbum
     await album.destroy();
+
+    // Redireciona para a página inicial
     res.redirect('/');
   } catch (error) {
     console.error('Erro ao deletar álbum:', error);

@@ -18,16 +18,23 @@ exports.getAllArtists = async (req, res) => {
 exports.getArtistDetails = async (req, res) => {
   try {
     const artist = await Artista.findByPk(req.params.id, {
-        include: ['albums'] // Inclui os álbuns associados
+      include: [{ model: Album, as: 'albums' }],
     });
+
     if (!artist) {
-        return res.status(404).send('Artista não encontrado');
+      return res.status(404).send('Artista não encontrado.');
     }
-    res.render('detalhesArtista', { artist });
-} catch (error) {
-    console.error(error);
-    res.status(500).send('Erro no servidor');
-}
+
+    res.render('detalhesArtista', { 
+      artist: {
+        ...artist.dataValues,
+        genre: artist.genre || 'Gênero desconhecido', // Handle null genre
+      },
+    });
+  } catch (error) {
+    console.error('Erro ao buscar detalhes do artista:', error);
+    res.status(500).send('Erro ao buscar detalhes do artista.');
+  }
 };
 
 exports.addArtistForm = async (req, res) => {
@@ -117,11 +124,27 @@ exports.updateArtist = async (req, res) => {
 
 exports.deleteArtist = async (req, res) => {
   try {
-    const artist = await Artista.findByPk(req.params.id);
+    // Encontra o artista pelo ID
+    const artist = await Artista.findByPk(req.params.id, {
+      include: [{ model: Album, as: 'albums' }], // Inclui os álbuns associados
+    });
+
+    // Verifica se o artista foi encontrado
     if (!artist) {
       return res.status(404).send('Artista não encontrado.');
     }
+
+    // Desassocia os álbuns do artista
+    if (artist.albums && artist.albums.length > 0) {
+      for (const album of artist.albums) {
+        await album.update({ artist_id: null }); // Remove a associação do artista
+      }
+    }
+
+    // Agora deleta o artista
     await artist.destroy();
+
+    // Redireciona para a página inicial ou lista de artistas
     res.redirect('/');
   } catch (error) {
     console.error('Erro ao deletar artista:', error);

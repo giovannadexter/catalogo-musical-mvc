@@ -33,6 +33,7 @@
       <% } %>
       
       <a href="/albums/<%= album.id %>/edit" class="btn btn-warning">Editar Informações</a>
+      <a href="/albums/<%= album.id %>/delete" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar este album?')">Deletar</a>
       <a href="/" class="btn btn-primary">Voltar para Página Inicial</a>
     </div>
     
