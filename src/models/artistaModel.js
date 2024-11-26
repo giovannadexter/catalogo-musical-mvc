@@ -14,7 +14,7 @@ const Artista = sequelize.define('Artista', {
 },
 genre: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
 }
 });
 

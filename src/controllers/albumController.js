@@ -19,16 +19,21 @@ exports.createAlbum = async (req, res) => {
     if (artist && artist.trim() !== '') {
       artista = await Artista.findOne({ where: { name: artist } });
       if (!artista) {
-        artista = await Artista.create({ name: artist });
+        artista = await Artista.create({ name: artist, genre: genre || 'Gênero desconhecido' });
       }
     }
 
-    // Criar ou associar Gênero
+// Criar ou associar Gênero
     let genero = null;
     if (genre && genre.trim() !== '') {
       genero = await Genero.findOne({ where: { name: genre } });
       if (!genero) {
         genero = await Genero.create({ name: genre });
+      }
+    } else {
+      genero = await Genero.findOne({ where: { name: 'Gênero desconhecido' } });
+      if (!genero) {
+        genero = await Genero.create({ name: 'Gênero desconhecido' });
       }
     }
 
@@ -130,8 +135,8 @@ exports.updateAlbum = async (req, res) => {
     // Atualiza as informações do álbum
     await album.update({ title, release_year });
 
-    // Atualiza o gênero
-    if (genre && genre.trim() !== '') {
+     // Atualiza o gênero
+     if (genre && genre.trim() !== '') {
       let genero = await Genero.findOne({ where: { name: genre } });
       if (!genero) {
         genero = await Genero.create({ name: genre });
@@ -139,9 +144,10 @@ exports.updateAlbum = async (req, res) => {
       album.genre_id = genero.id;
       await album.save();
     } else {
-      album.genre_id = null; // Deixa nulo se o campo estiver vazio
+      album.genre_id = null; // Remove o gênero se o campo estiver vazio
       await album.save();
     }
+
 
     // Atualiza ou exclui as faixas
     if (tracks) {
