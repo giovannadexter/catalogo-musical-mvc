@@ -66,6 +66,8 @@ Siga as etapas abaixo para configurar e executar o projeto localmente:
    ```bash
     npx sequelize-cli db:migrate
    ```
+ Ou crie seu próprio arquivo, deletando o existente e rodando o projeto novamente, isso criará um novo arquivo. 
+ 
 6. Inicie o servidor:
     ```bash
    cd src  
